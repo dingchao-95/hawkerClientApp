@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -64,5 +65,24 @@ public class FoodActivity extends AppCompatActivity {
     private void displayFoodList(List<Food> foods) {
         FoodAdapter adapter = new FoodAdapter(this,foods);
         lst_food.setAdapter(adapter);
+    }
+
+    //Exits the application when pressing the 'back' button in android
+    boolean isBackClicked = false;
+
+    @Override
+    public void onBackPressed() {
+        if(isBackClicked) {
+            super.onBackPressed();
+            return;
+        }
+        this.isBackClicked = true;
+        Toast.makeText(this, "Tap back again to exit the app.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isBackClicked = false;
     }
 }

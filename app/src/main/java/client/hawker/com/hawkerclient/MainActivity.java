@@ -323,4 +323,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    //Exits the application when pressing the 'back' button in android
+    boolean isBackClicked = false;
+
+    @Override
+    public void onBackPressed() {
+        if(isBackClicked) {
+            super.onBackPressed();
+            return;
+        }
+        this.isBackClicked = true;
+        Toast.makeText(this, "Tap back again to exit the app.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        isBackClicked = false;
+        super.onResume();
+    }
 }

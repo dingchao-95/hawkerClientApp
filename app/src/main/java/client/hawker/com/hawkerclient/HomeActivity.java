@@ -1,8 +1,10 @@
 package client.hawker.com.hawkerclient;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -20,10 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.facebook.accountkit.AccountKit;
 import com.nex3z.notificationbadge.NotificationBadge;
 
 import org.w3c.dom.Text;
@@ -144,13 +148,22 @@ public class HomeActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+
+    //Exits the application when pressing the 'back' button in android
+    boolean isBackClicked = false;
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(isBackClicked) {
+                super.onBackPressed();
+                return;
+            }
+            this.isBackClicked = true;
+            Toast.makeText(this, "Tap back again to exit the app.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -195,18 +208,36 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment fragment = null;
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_sign_out) {
+            //Create dialog for logout
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Logging Out");
+            builder.setMessage("Do you want to log out of the application?");
+
+            builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AccountKit.logOut();//Facebook API logout
+
+                    //clear all intents
+                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                }
+            });
+            //show dialog for exit
+            builder.show();
 
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_maps) {
+        } else if (id == R.id.nav_map) {
             mapInterface mapFragment = new mapInterface();
             android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout,mapFragment).commit();
@@ -243,5 +274,8 @@ public class HomeActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         updateCartCount();
+        isBackClicked = false;
     }
+
+
 }
