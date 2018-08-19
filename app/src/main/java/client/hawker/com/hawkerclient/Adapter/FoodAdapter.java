@@ -3,6 +3,7 @@ package client.hawker.com.hawkerclient.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -151,19 +152,22 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodViewHolder>{
                 .into(img_product_dialog);
 
         txt_product_dialog.setText(new StringBuilder(foodList.get(position).Name).append(" x")
-        .append(number)
-        .append(Common.mealTakeaway == 0 ? " Having here":" Takeaway").toString());
+        .append(Common.mealTakeaway == 0 ? " Having here":" Takeaway")
+        .append(number).toString());
 
         double price = (Double.parseDouble(foodList.get(position).Price)* Double.parseDouble(number));
 
         if(Common.mealTakeaway == 1)
         {
-            price+=1.0;
+            price+=(1.0*Double.parseDouble(number));
         }
 
-        txt_product_price.setText(new StringBuilder("$").append(price));
+
 
         final double finalPrice = price;
+
+        txt_product_price.setText(new StringBuilder("$").append(finalPrice));
+
         builder.setNegativeButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -174,9 +178,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodViewHolder>{
                     try {
                         //Cart items
                         Cart cartItem = new Cart();
-                        cartItem.name = txt_product_dialog.getText().toString();
+                        cartItem.name = foodList.get(position).Name;
                         cartItem.amount = Integer.parseInt(number);
                         cartItem.price = finalPrice;
+                        cartItem.mealTakeaway = Common.mealTakeaway;
                         cartItem.link = foodList.get(position).Link;
 
                         //Add to db

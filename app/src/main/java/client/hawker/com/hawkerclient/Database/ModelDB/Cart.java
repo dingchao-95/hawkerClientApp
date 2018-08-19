@@ -22,6 +22,9 @@ public class Cart {
     @ColumnInfo(name="amount")
     public int amount;
 
+    @ColumnInfo(name="mealTakeAway")
+    public int mealTakeaway;
+
     @ColumnInfo(name="price")
     public double price;
 }
