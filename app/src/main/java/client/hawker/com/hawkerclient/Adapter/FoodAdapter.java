@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import client.hawker.com.hawkerclient.Database.ModelDB.Cart;
+import client.hawker.com.hawkerclient.Database.ModelDB.Favourite;
 import client.hawker.com.hawkerclient.Interface.IItemClickListener;
 import client.hawker.com.hawkerclient.Model.Food;
 import client.hawker.com.hawkerclient.R;
@@ -48,7 +49,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FoodViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final FoodViewHolder holder, final int position) {
 
         holder.txt_price.setText(new StringBuilder("$").append(foodList.get(position).Price));
         holder.txt_food_name.setText(foodList.get(position).Name);
@@ -71,7 +72,45 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodViewHolder>{
                 Toast.makeText(context,"Clicked",Toast.LENGTH_SHORT).show();
             }
         });
+
+        //favourite lists starts here
+        if(Common.favouriteRepository.isFavourite(Integer.parseInt(foodList.get(position).ID)) == 1)
+            holder.btn_favourites.setImageResource(R.drawable.ic_favorite_white_24dp);
+        else
+            holder.btn_favourites.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+
+        holder.btn_favourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Common.favouriteRepository.isFavourite(Integer.parseInt(foodList.get(position).ID)) != 1)
+                {
+                    addOrRemoveFavourite(foodList.get(position),true);
+                    holder.btn_favourites.setImageResource(R.drawable.ic_favorite_white_24dp);
+                }
+                else
+                {
+                    addOrRemoveFavourite(foodList.get(position),false);
+                    holder.btn_favourites.setImageResource(R.drawable.ic_favorite_border_white_24dp);
+                }
+            }
+        });
     }
+
+    private void addOrRemoveFavourite(Food food, boolean isAdded) {
+        Favourite favourite = new Favourite();
+        favourite.id = food.ID;
+        favourite.link = food.Link;
+        favourite.name = food.Name;
+        favourite.price = food.Price;
+        favourite.menuId = food.MenuId;
+
+        if(isAdded)
+            Common.favouriteRepository.insertFavourite(favourite);
+        else
+            Common.favouriteRepository.delete(favourite);
+
+    }
+
 
     private void showAddToCartDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

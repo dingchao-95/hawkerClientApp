@@ -2,6 +2,7 @@ package client.hawker.com.hawkerclient.Database.Local;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public interface FavouriteDAO {
 
     @Query("SELECT EXISTS (SELECT 1 FROM Favourite WHERE id=:itemId)")
     int isFavourite(int itemId);
+
+    @Insert
+    void insertFavourite(Favourite...favourites);
 
     @Delete
     void delete(Favourite favourite);

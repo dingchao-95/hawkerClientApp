@@ -17,6 +17,8 @@ public interface IFavouriteDataSource {
     int isFavourite(int itemId);
 
 
+    void insertFavourite(Favourite...favourites);
+
     void delete(Favourite favourite);
 
 

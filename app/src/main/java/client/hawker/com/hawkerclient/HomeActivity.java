@@ -242,6 +242,9 @@ public class HomeActivity extends AppCompatActivity
             android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout,mapFragment).commit();
         }
+        else if(id == R.id.nav_fav) {
+            startActivity(new Intent(HomeActivity.this,FavouriteListActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

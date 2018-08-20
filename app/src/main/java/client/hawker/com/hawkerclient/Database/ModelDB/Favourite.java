@@ -3,15 +3,14 @@ package client.hawker.com.hawkerclient.Database.ModelDB;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import io.reactivex.annotations.NonNull;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "Favourite")
 public class Favourite {
-
     @NonNull
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name="id")
-    public int id;
+    public String id;
 
     @ColumnInfo(name="name")
     public String name;

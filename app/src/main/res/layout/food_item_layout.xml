@@ -62,13 +62,31 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_add_cart"
-            android:text="Add to cart"
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+       <LinearLayout
+           android:orientation="horizontal"
+           android:weightSum="2"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <ImageView
+               android:id="@+id/btn_add_cart"
+               android:layout_weight="1"
+               android:layout_gravity="center_horizontal"
+               android:src="@drawable/ic_shopping_cart_black_24dp"
+               style="@style/Widget.AppCompat.Button.Colored"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+           <ImageView
+               android:id="@+id/btn_favourites"
+               android:layout_weight="1"
+               android:layout_gravity="center_horizontal"
+               android:src="@drawable/ic_favorite_border_white_24dp"
+               style="@style/Widget.AppCompat.Button.Colored"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
 
     </LinearLayout>
 
