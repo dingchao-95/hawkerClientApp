@@ -1,27 +1,36 @@
 package client.hawker.com.hawkerclient;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import client.hawker.com.hawkerclient.Adapter.CartAdapter;
+import client.hawker.com.hawkerclient.Adapter.FavouriteAdapter;
 import client.hawker.com.hawkerclient.Database.ModelDB.Cart;
+import client.hawker.com.hawkerclient.Database.ModelDB.Favourite;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
 import client.hawker.com.hawkerclient.Utils.Common;
+import client.hawker.com.hawkerclient.Utils.RecyclerItemTouchHelper;
+import client.hawker.com.hawkerclient.Utils.RecyclerItemTouchHelperListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -30,15 +39,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener{
 
     RecyclerView recycler_cart;
     Button btn_place_order;
 
+    List<Cart> cartList = new ArrayList<>();
 
     CompositeDisposable compositeDisposable;
 
     IHawkerAPI mService;
+
+    CartAdapter cartAdapter;
+
+    RelativeLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +67,9 @@ public class CartActivity extends AppCompatActivity {
         recycler_cart.setLayoutManager(new LinearLayoutManager(this));
         recycler_cart.setHasFixedSize(true);
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new RecyclerItemTouchHelper(0,ItemTouchHelper.LEFT,this);
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recycler_cart);
+
         btn_place_order = (Button)findViewById(R.id.btn_place_order);
         btn_place_order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +77,8 @@ public class CartActivity extends AppCompatActivity {
                 placeOrder();
             }
         });
+
+        rootLayout = (RelativeLayout)findViewById(R.id.rootLayout);
 
         loadCartItems();
     }
@@ -144,7 +163,8 @@ public class CartActivity extends AppCompatActivity {
 
     private void displayCartItems(List<Cart> carts)
     {
-        CartAdapter cartAdapter = new CartAdapter(this,carts);
+        cartList = carts;
+        cartAdapter = new CartAdapter(this,carts);
         recycler_cart.setAdapter(cartAdapter);
     }
 
@@ -162,22 +182,43 @@ public class CartActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    //Exits the application when pressing the 'back' button in android
-    boolean isBackClicked = false;
 
-    @Override
-    public void onBackPressed() {
-        if(isBackClicked) {
-            super.onBackPressed();
-            return;
-        }
-        this.isBackClicked = true;
-        Toast.makeText(this, "Tap back again to exit the app.", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        isBackClicked = false;
+        loadCartItems();
     }
+
+    @Override
+    public void onSwipe(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if(viewHolder instanceof CartAdapter.CartViewHolder)
+        {
+            String name = cartList.get(viewHolder.getAdapterPosition()).name;
+
+            final Cart deletedItem = cartList.get(viewHolder.getAdapterPosition());
+            final int deletedIndex = viewHolder.getAdapterPosition();
+
+            //Delete items from adapter
+            cartAdapter.removeItem(deletedIndex);
+            //delete item from roomdb
+            Common.cartRepository.deleteCartItems(deletedItem);
+
+            cartAdapter.updateItems(cartList);
+
+            Snackbar snackbar = Snackbar.make(rootLayout,new StringBuilder(name).append(" removed from favourites").toString(),
+                    Snackbar.LENGTH_LONG);
+            snackbar.setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cartAdapter.restoreItem(deletedItem,deletedIndex);
+                    Common.cartRepository.insertToCart(deletedItem);
+                }
+            });
+            snackbar.setActionTextColor(Color.YELLOW);
+            snackbar.show();
+        }
+    }
+
+
 }

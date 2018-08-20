@@ -47,7 +47,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, bannerFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, bannerFragment.OnFragmentInteractionListener, favouriteFragment.OnFragmentInteractionListener {
 
     TextView txt_name, txt_phone;
     SliderLayout sliderLayout;
@@ -57,6 +57,9 @@ public class HomeActivity extends AppCompatActivity
     NotificationBadge badge;
 
     ImageView cart_icon;
+
+    mapInterface mapFragment = new mapInterface();
+    favouriteFragment favFrag = new favouriteFragment();
 
     //Rxjavav2
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -238,12 +241,16 @@ public class HomeActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_map) {
-            mapInterface mapFragment = new mapInterface();
+
             android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.mainLayout,mapFragment).commit();
         }
         else if(id == R.id.nav_fav) {
             startActivity(new Intent(HomeActivity.this,FavouriteListActivity.class));
+
+//            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction().replace(R.id.mainLayout,favFrag).commit();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

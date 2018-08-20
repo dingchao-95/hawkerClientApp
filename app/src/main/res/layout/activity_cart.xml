@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/my_bg"
@@ -11,6 +12,7 @@
     <Button
         android:id="@+id/btn_place_order"
         android:text="Place Order"
+
         android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

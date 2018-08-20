@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -54,10 +56,13 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
         return favouriteList.size();
     }
 
-    class FavouriteViewHolder extends RecyclerView.ViewHolder
+    public class FavouriteViewHolder extends RecyclerView.ViewHolder
     {
         ImageView img_product;
         TextView txt_product_name,txt_price;
+
+        public RelativeLayout view_background;
+        public LinearLayout view_foreground;
 
         public FavouriteViewHolder(View itemView)
         {
@@ -65,6 +70,21 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
             img_product = (ImageView)itemView.findViewById(R.id.img_product);
             txt_product_name = (TextView)itemView.findViewById(R.id.txt_product_name);
             txt_price = (TextView)itemView.findViewById(R.id.txt_price);
+
+            view_background = (RelativeLayout)itemView.findViewById(R.id.view_background);
+            view_foreground = (LinearLayout)itemView.findViewById(R.id.view_foreground);
         }
+    }
+
+    public void removeItem(int position)
+    {
+        favouriteList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Favourite item, int position)
+    {
+        favouriteList.add(position,item);
+        notifyItemInserted(position);
     }
 }

@@ -7,14 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import client.hawker.com.hawkerclient.Database.ModelDB.Cart;
+import client.hawker.com.hawkerclient.Database.ModelDB.Favourite;
 import client.hawker.com.hawkerclient.R;
 import client.hawker.com.hawkerclient.Utils.Common;
 
@@ -73,11 +77,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartList.size();
     }
 
-    class CartViewHolder extends RecyclerView.ViewHolder
+    public class CartViewHolder extends RecyclerView.ViewHolder
     {
         ImageView img_product;
         TextView txt_product_name,txt_price;
         ElegantNumberButton txt_amount;
+
+        public RelativeLayout view_background;
+        public LinearLayout view_foreground;
 
         public CartViewHolder(View itemView) {
             super(itemView);
@@ -87,7 +94,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             txt_price = (TextView)itemView.findViewById(R.id.txt_price);
             txt_amount = (ElegantNumberButton)itemView.findViewById(R.id.txt_amount);
 
-
+            view_background = (RelativeLayout)itemView.findViewById(R.id.view_background);
+            view_foreground = (LinearLayout)itemView.findViewById(R.id.view_foreground);
         }
     }
+
+    public void removeItem(int position)
+    {
+        cartList.remove(position);
+        notifyItemInserted(position);
+    }
+
+    public void restoreItem(Cart item, int position)
+    {
+        cartList.add(position,item);
+        notifyItemInserted(position);
+    }
+
+    public void updateItems(List<Cart> newItems) {
+        List<Cart> updatedItems = new ArrayList<>();
+        updatedItems = newItems;
+        cartList = updatedItems;
+        notifyDataSetChanged();
+    }
+
 }
