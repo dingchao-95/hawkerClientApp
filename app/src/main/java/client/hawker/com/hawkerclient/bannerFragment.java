@@ -23,8 +23,10 @@ import java.util.List;
 
 import client.hawker.com.hawkerclient.Adapter.CategoryAdapter;
 import client.hawker.com.hawkerclient.Database.DataSource.CartRepository;
+import client.hawker.com.hawkerclient.Database.DataSource.FavouriteRepository;
 import client.hawker.com.hawkerclient.Database.Local.CartDataSource;
-import client.hawker.com.hawkerclient.Database.Local.CartDatabase;
+import client.hawker.com.hawkerclient.Database.Local.FavouriteDataSource;
+import client.hawker.com.hawkerclient.Database.Local.HawkerRoomDatabase;
 import client.hawker.com.hawkerclient.Model.Banner;
 import client.hawker.com.hawkerclient.Model.Category;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
@@ -124,8 +126,9 @@ public class bannerFragment extends Fragment {
 
     private void initDB() {
 
-        Common.cartDatabase = CartDatabase.getInstance(getContext());
-        Common.cartRepository = CartRepository.getInstance(CartDataSource.getInstance(Common.cartDatabase.cartDAO()));
+        Common.hawkerRoomDatabase = HawkerRoomDatabase.getInstance(getContext());
+        Common.cartRepository = CartRepository.getInstance(CartDataSource.getInstance(Common.hawkerRoomDatabase.cartDAO()));
+        Common.favouriteRepository = FavouriteRepository.getInstance(FavouriteDataSource.getInstance(Common.hawkerRoomDatabase.favouriteDAO()));
     }
 
     @Override

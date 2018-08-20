@@ -37,7 +37,7 @@ import java.util.List;
 
 import client.hawker.com.hawkerclient.Database.DataSource.CartRepository;
 import client.hawker.com.hawkerclient.Database.Local.CartDataSource;
-import client.hawker.com.hawkerclient.Database.Local.CartDatabase;
+import client.hawker.com.hawkerclient.Database.Local.HawkerRoomDatabase;
 import client.hawker.com.hawkerclient.Model.Banner;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
 import client.hawker.com.hawkerclient.Utils.Common;
@@ -104,8 +104,8 @@ public class HomeActivity extends AppCompatActivity
                 .commit();
 
         //getBanner images
-        Common.cartDatabase = CartDatabase.getInstance(this);
-        Common.cartRepository = CartRepository.getInstance(CartDataSource.getInstance(Common.cartDatabase.cartDAO()));
+        Common.hawkerRoomDatabase = HawkerRoomDatabase.getInstance(this);
+        Common.cartRepository = CartRepository.getInstance(CartDataSource.getInstance(Common.hawkerRoomDatabase.cartDAO()));
 
     }
 

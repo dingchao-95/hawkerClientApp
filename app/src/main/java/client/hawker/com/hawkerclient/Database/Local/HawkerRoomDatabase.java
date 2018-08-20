@@ -10,16 +10,19 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import client.hawker.com.hawkerclient.Database.ModelDB.Cart;
+import client.hawker.com.hawkerclient.Database.ModelDB.Favourite;
 
-@Database(entities = {Cart.class}, version = 1)
-public abstract class CartDatabase extends RoomDatabase {
+@Database(entities = {Cart.class, Favourite.class}, version = 1)
+public abstract class HawkerRoomDatabase extends RoomDatabase {
 
     public abstract CartDAO cartDAO();
-    private static CartDatabase instance;
+    public abstract FavouriteDAO favouriteDAO();
 
-    public static CartDatabase getInstance(Context context){
+    private static HawkerRoomDatabase instance;
+
+    public static HawkerRoomDatabase getInstance(Context context){
         if(instance == null)
-            instance = Room.databaseBuilder(context,CartDatabase.class,"EDMT_DrinkShopDB")
+            instance = Room.databaseBuilder(context,HawkerRoomDatabase.class,"EDMT_DrinkShopDB")
                     .allowMainThreadQueries()
                     .build();
         return instance;

@@ -1,7 +1,8 @@
 package client.hawker.com.hawkerclient.Utils;
 
 import client.hawker.com.hawkerclient.Database.DataSource.CartRepository;
-import client.hawker.com.hawkerclient.Database.Local.CartDatabase;
+import client.hawker.com.hawkerclient.Database.DataSource.FavouriteRepository;
+import client.hawker.com.hawkerclient.Database.Local.HawkerRoomDatabase;
 import client.hawker.com.hawkerclient.Model.Category;
 import client.hawker.com.hawkerclient.Model.User;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
@@ -20,8 +21,9 @@ public class Common {
     public static int mealTakeaway = -1; //No choose = -1(error), 0 : eating here, 1 : takeaway
 
     //Local db
-    public static CartDatabase cartDatabase;
+    public static HawkerRoomDatabase hawkerRoomDatabase;
     public static CartRepository cartRepository;
+    public static FavouriteRepository favouriteRepository;
 
 
     public static IHawkerAPI getAPI()
