@@ -47,4 +47,9 @@ public interface IHawkerAPI {
                              @Field("comment") String comment ,
                              @Field("phone") String phone);
 
+    @FormUrlEncoded
+    @POST("braintree/checkout.php")
+    Call<String> payment(@Field("nonce") String nonce,
+                             @Field("amount") String amount);
+
 }

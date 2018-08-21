@@ -7,11 +7,13 @@ import client.hawker.com.hawkerclient.Model.Category;
 import client.hawker.com.hawkerclient.Model.User;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
 import client.hawker.com.hawkerclient.Retrofit.RetrofitClient;
+import client.hawker.com.hawkerclient.Retrofit.RetrofitScalarsClient;
 
 public class Common {
 
     //in emulator localhost is 10.0.2.2
-    private static final String BASE_URL = "http://10.0.2.2/hawker/";
+    public static final String BASE_URL = "http://10.0.2.2/hawker/";
+    public static final String API_TOKEN_URL = "http://10.0.2.2/hawker/braintree/main.php";
 
 
     public static User currentUser = null;
@@ -29,5 +31,10 @@ public class Common {
     public static IHawkerAPI getAPI()
     {
         return RetrofitClient.getClient(BASE_URL).create(IHawkerAPI.class);
+    }
+
+    public static IHawkerAPI getScalarsAPI()
+    {
+        return RetrofitScalarsClient.getScalarsClient(BASE_URL).create(IHawkerAPI.class);
     }
 }
