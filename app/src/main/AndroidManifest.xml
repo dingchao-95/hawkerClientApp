@@ -66,7 +66,8 @@
         <activity android:name=".FoodActivity" />
         <activity android:name=".CartActivity" />
         <activity android:name=".FavouriteListActivity" />
-        <activity android:name=".ShowOrderActivity"></activity>
+        <activity android:name=".ShowOrderActivity" />
+        <activity android:name=".OrderDetailActivity"></activity>
     </application>
 
 </manifest>

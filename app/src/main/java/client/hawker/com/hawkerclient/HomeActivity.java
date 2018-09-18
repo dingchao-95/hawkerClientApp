@@ -246,14 +246,26 @@ public class HomeActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.mainLayout,mapFragment).commit();
         }
         else if(id == R.id.nav_fav) {
-            startActivity(new Intent(HomeActivity.this,FavouriteListActivity.class));
+            if(Common.currentUser != null) {
+                startActivity(new Intent(HomeActivity.this, FavouriteListActivity.class));
+            }
+            else
+            {
+                Toast.makeText(this, "Please Login to use this feature", Toast.LENGTH_SHORT).show();
+            }
 
 //            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 //            manager.beginTransaction().replace(R.id.mainLayout,favFrag).commit();
 
         }
         else if(id == R.id.nav_show_orders) {
-            startActivity(new Intent(HomeActivity.this,ShowOrderActivity.class));
+            if(Common.currentUser != null) {
+                startActivity(new Intent(HomeActivity.this, ShowOrderActivity.class));
+            }
+            else
+            {
+                Toast.makeText(this, "Login to use this feature.", Toast.LENGTH_SHORT).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

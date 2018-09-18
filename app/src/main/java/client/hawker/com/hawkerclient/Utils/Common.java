@@ -4,6 +4,7 @@ import client.hawker.com.hawkerclient.Database.DataSource.CartRepository;
 import client.hawker.com.hawkerclient.Database.DataSource.FavouriteRepository;
 import client.hawker.com.hawkerclient.Database.Local.HawkerRoomDatabase;
 import client.hawker.com.hawkerclient.Model.Category;
+import client.hawker.com.hawkerclient.Model.Order;
 import client.hawker.com.hawkerclient.Model.User;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
 import client.hawker.com.hawkerclient.Retrofit.RetrofitClient;
@@ -18,6 +19,7 @@ public class Common {
 
     public static User currentUser = null;
     public static Category currentCategory = null;
+    public static Order currentOrder = null;
 
     //Hold Field
     public static int mealTakeaway = -1; //No choose = -1(error), 0 : eating here, 1 : takeaway

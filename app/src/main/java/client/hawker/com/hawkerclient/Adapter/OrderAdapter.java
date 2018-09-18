@@ -1,6 +1,7 @@
 package client.hawker.com.hawkerclient.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +10,9 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import client.hawker.com.hawkerclient.Interface.IItemClickListener;
 import client.hawker.com.hawkerclient.Model.Order;
+import client.hawker.com.hawkerclient.OrderDetailActivity;
 import client.hawker.com.hawkerclient.R;
 import client.hawker.com.hawkerclient.Utils.Common;
 
@@ -31,15 +34,25 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OrderViewHolder holder, final int position) {
         holder.txt_order_id.setText(new StringBuilder("#").append(orderList.get(position).getOrderId()));
         holder.txt_order_price.setText(new StringBuilder("$").append(orderList.get(position).getOrderPrice()));
         holder.txt_order_comment.setText(orderList.get(position).getOrderComment());
         holder.txt_order_status.setText(new StringBuilder("Order Status: ").append(Common.convertCodeToStatus(orderList.get(position).getOrderStatus())));
+
+        holder.setiItemClickListener(new IItemClickListener() {
+            @Override
+            public void onClick(View v) {
+                Common.currentOrder = orderList.get(position);
+                context.startActivity(new Intent(context, OrderDetailActivity.class));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return orderList.size();
     }
+
+
 }
