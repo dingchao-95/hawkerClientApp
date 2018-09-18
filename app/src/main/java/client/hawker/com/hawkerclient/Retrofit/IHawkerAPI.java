@@ -7,6 +7,7 @@ import client.hawker.com.hawkerclient.Model.Banner;
 import client.hawker.com.hawkerclient.Model.Category;
 import client.hawker.com.hawkerclient.Model.CheckUserResponse;
 import client.hawker.com.hawkerclient.Model.Food;
+import client.hawker.com.hawkerclient.Model.Order;
 import client.hawker.com.hawkerclient.Model.User;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -51,5 +52,10 @@ public interface IHawkerAPI {
     @POST("braintree/checkout.php")
     Call<String> payment(@Field("nonce") String nonce,
                              @Field("amount") String amount);
+
+    @FormUrlEncoded
+    @POST("getorders.php")
+    io.reactivex.Observable<List<Order>> getOrder(@Field("userPhone") String userPhone,
+                                                  @Field("status") String status);
 
 }

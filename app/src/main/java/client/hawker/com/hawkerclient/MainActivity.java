@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
                 @Override
                 public void onSuccess(final Account account) {
-
                     mService.checkExistsUser(account.getPhoneNumber().toString())
                             .enqueue(new Callback<CheckUserResponse>() {
                                 @Override

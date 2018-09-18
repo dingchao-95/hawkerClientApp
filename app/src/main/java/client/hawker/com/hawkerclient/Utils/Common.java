@@ -12,8 +12,8 @@ import client.hawker.com.hawkerclient.Retrofit.RetrofitScalarsClient;
 public class Common {
 
     //in emulator localhost is 10.0.2.2
-    public static final String BASE_URL = "http://10.0.2.2/hawker/";
-    public static final String API_TOKEN_URL = "http://10.0.2.2/hawker/braintree/main.php";
+    public static final String BASE_URL = "http://192.168.1.22/hawker/";
+    public static final String API_TOKEN_URL = "http://192.168.1.22/hawker/braintree/main.php";
 
 
     public static User currentUser = null;
@@ -36,5 +36,22 @@ public class Common {
     public static IHawkerAPI getScalarsAPI()
     {
         return RetrofitScalarsClient.getScalarsClient(BASE_URL).create(IHawkerAPI.class);
+    }
+
+    public static String convertCodeToStatus(int orderStatus) {
+        switch (orderStatus)
+        {
+            case 0:
+                return "Placed";
+            case 1:
+                return "Processing";
+            case 2:
+                return "Food is done";
+            case -1:
+                return "Cancelled";
+                default:
+                    return "Error in orders.";
+
+        }
     }
 }

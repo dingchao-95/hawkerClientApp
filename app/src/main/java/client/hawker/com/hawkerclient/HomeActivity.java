@@ -252,6 +252,9 @@ public class HomeActivity extends AppCompatActivity
 //            manager.beginTransaction().replace(R.id.mainLayout,favFrag).commit();
 
         }
+        else if(id == R.id.nav_show_orders) {
+            startActivity(new Intent(HomeActivity.this,ShowOrderActivity.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
