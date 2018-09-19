@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.support.annotation.CheckResult;
 import android.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,7 +25,10 @@ import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.i18n.phonenumbers.Phonemetadata;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                                         Common.currentUser = response.body();
 
                                                         //updatetoken
-                                                        updateTokenToFireBase();
+                                                        updateTokenToServer();
                                                         startActivity(new Intent(MainActivity.this,HomeActivity.class));
                                                         finish();
                                                     }
@@ -185,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                                                                 alertDialog.dismiss();
 
                                                                 //update token
-                                                                updateTokenToFireBase();
+                                                                updateTokenToServer();
                                                                 //Fix login for the first time
                                                                 Common.currentUser = response.body();
 
@@ -285,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this,"User is successfully registered",Toast.LENGTH_SHORT).show();
                                     Common.currentUser = response.body();
                                     //update token
-                                    updateTokenToFireBase();
+                                    updateTokenToServer();
                                     //start activity
                                     startActivity(new Intent(MainActivity.this,HomeActivity.class));
                                     finish();
@@ -349,18 +353,32 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void updateTokenToFireBase() {
-        IHawkerAPI mService = Common.getAPI();
-        mService.updateToken(Common.currentUser.getPhone(), FirebaseInstanceId.getInstance().getToken(),"0")
-                .enqueue(new Callback<String>() {
+    private void updateTokenToServer() {
+        FirebaseInstanceId.getInstance()
+                .getInstanceId()
+                .addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("DEBUG",response.body());
-                    }
+                    public void onSuccess(InstanceIdResult instanceIdResult) {
+                        IHawkerAPI mService = Common.getAPI();
+                        mService.updateToken(Common.currentUser.getPhone(), instanceIdResult.getToken(),"0")
+                                .enqueue(new Callback<String>() {
+                                    @Override
+                                    public void onResponse(Call<String> call, Response<String> response) {
+                                        Log.d("DEBUG",response.toString());
+                                    }
 
+                                    @Override
+                                    public void onFailure(Call<String> call, Throwable t) {
+                                        Log.d("DEBUG",t.getMessage());
+                                    }
+                                });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.d("DEBUG",t.getMessage());
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

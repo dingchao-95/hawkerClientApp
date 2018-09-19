@@ -70,13 +70,6 @@
         <activity android:name=".OrderDetailActivity"></activity>
 
         <service
-            android:name=".Services.MyFirebaseIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-
-        <service
             android:name=".Services.MyFirebaseMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

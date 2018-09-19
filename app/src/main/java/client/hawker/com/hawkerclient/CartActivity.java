@@ -31,11 +31,17 @@ import com.paypal.android.sdk.onetouch.core.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import client.hawker.com.hawkerclient.Adapter.CartAdapter;
 import client.hawker.com.hawkerclient.Adapter.FavouriteAdapter;
 import client.hawker.com.hawkerclient.Database.ModelDB.Cart;
 import client.hawker.com.hawkerclient.Database.ModelDB.Favourite;
+import client.hawker.com.hawkerclient.Model.DataMessage;
+import client.hawker.com.hawkerclient.Model.MyResponse;
+import client.hawker.com.hawkerclient.Model.OrderResult;
+import client.hawker.com.hawkerclient.Model.Token;
+import client.hawker.com.hawkerclient.Retrofit.IFCMService;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
 import client.hawker.com.hawkerclient.Utils.Common;
 import client.hawker.com.hawkerclient.Utils.RecyclerItemTouchHelper;
@@ -248,21 +254,75 @@ public class CartActivity extends AppCompatActivity implements RecyclerItemTouch
                 String orderDetail = new Gson().toJson(carts);
 
                 mService.submitOrder(sumPrice,orderDetail,orderComment,Common.currentUser.getPhone())
-                        .enqueue(new Callback<String>() {
+                        .enqueue(new Callback<OrderResult>() {
                             @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                Toast.makeText(CartActivity.this, "submit orders", Toast.LENGTH_SHORT).show();
+                            public void onResponse(Call<OrderResult> call, Response<OrderResult> response) {
 
-                                //clear the cart once confirmed
-                                Common.cartRepository.emptyCart();
+                                sendNotificationToServer(response.body());
                             }
 
                             @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                            public void onFailure(Call<OrderResult> call, Throwable t) {
                                 Log.e("ERROR",t.getMessage());
                             }
                         });
             }
+    }
+
+    private void sendNotificationToServer(final OrderResult orderResult) {
+        //get server token
+        mService.getToken("Server_App_01","1")
+        .enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                //when token is received send notification to this token
+                Map<String,String> contentSend = new HashMap<>();
+                contentSend.put("title","HawkerApp");
+                contentSend.put("message","You have a new order "+orderResult.getOrderId());
+                DataMessage dataMessage = new DataMessage();
+                if(response.body().getToken() != null)
+                {
+                    dataMessage.setTo(response.body().getToken());
+                }
+                dataMessage.setData(contentSend);
+
+                IFCMService ifcmService = Common.getFCMService();
+                ifcmService.sendNotification(dataMessage)
+                        .enqueue(new Callback<MyResponse>() {
+                            @Override
+                            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                if(response.code() == 200)
+                                {
+                                    if(response.body().success == 1)
+                                    {
+                                        Toast.makeText(CartActivity.this, "Order is placed. thank you", Toast.LENGTH_SHORT).show();
+
+                                        //clear cart;
+                                        Common.cartRepository.emptyCart();
+                                        finish();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(CartActivity.this, "Sending of notification failed.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<MyResponse> call, Throwable t) {
+                                Toast.makeText(CartActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                Toast.makeText(CartActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     private void loadCartItems() {

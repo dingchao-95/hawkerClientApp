@@ -6,6 +6,8 @@ import client.hawker.com.hawkerclient.Database.Local.HawkerRoomDatabase;
 import client.hawker.com.hawkerclient.Model.Category;
 import client.hawker.com.hawkerclient.Model.Order;
 import client.hawker.com.hawkerclient.Model.User;
+import client.hawker.com.hawkerclient.Retrofit.FCMClient;
+import client.hawker.com.hawkerclient.Retrofit.IFCMService;
 import client.hawker.com.hawkerclient.Retrofit.IHawkerAPI;
 import client.hawker.com.hawkerclient.Retrofit.RetrofitClient;
 import client.hawker.com.hawkerclient.Retrofit.RetrofitScalarsClient;
@@ -28,6 +30,13 @@ public class Common {
     public static HawkerRoomDatabase hawkerRoomDatabase;
     public static CartRepository cartRepository;
     public static FavouriteRepository favouriteRepository;
+
+    private static final String FCM_API = "https://fcm.googleapis.com/";
+
+    public static IFCMService getFCMService()
+    {
+        return FCMClient.getClient(FCM_API).create(IFCMService.class);
+    }
 
 
     public static IHawkerAPI getAPI()

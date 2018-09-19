@@ -8,6 +8,8 @@ import client.hawker.com.hawkerclient.Model.Category;
 import client.hawker.com.hawkerclient.Model.CheckUserResponse;
 import client.hawker.com.hawkerclient.Model.Food;
 import client.hawker.com.hawkerclient.Model.Order;
+import client.hawker.com.hawkerclient.Model.OrderResult;
+import client.hawker.com.hawkerclient.Model.Token;
 import client.hawker.com.hawkerclient.Model.User;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -43,10 +45,10 @@ public interface IHawkerAPI {
 
     @FormUrlEncoded
     @POST("submitorder.php")
-    Call<String> submitOrder(@Field("price") float orderPrice,
-                             @Field("orderDetail") String orderDetail,
-                             @Field("comment") String comment ,
-                             @Field("phone") String phone);
+    Call<OrderResult> submitOrder(@Field("price") float orderPrice,
+                                  @Field("orderDetail") String orderDetail,
+                                  @Field("comment") String comment ,
+                                  @Field("phone") String phone);
 
     @FormUrlEncoded
     @POST("braintree/checkout.php")
@@ -63,5 +65,15 @@ public interface IHawkerAPI {
     Call<String> updateToken(@Field("phone") String phone,
                              @Field("token") String token,
                              @Field("isServerToken") String isServerToken);
+
+    @FormUrlEncoded
+    @POST("cancelorder.php")
+    Call<String> cancelOrder(@Field("orderId") String orderId,
+                             @Field("userPhone") String userPhone);
+
+    @FormUrlEncoded
+    @POST("gettoken.php")
+    Call<Token> getToken(@Field("phone") String phone,
+                         @Field("isServerToken") String isServerToken);
 
 }
