@@ -1,0 +1,161 @@
+{
+  "project_info": {
+    "project_number": "450434288792",
+    "firebase_url": "https://myhawker-adbff.firebaseio.com",
+    "project_id": "myhawker-adbff",
+    "storage_bucket": "myhawker-adbff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450434288792:android:80194f708a69006c",
+        "android_client_info": {
+          "package_name": "client.hawker.com.hawkerclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450434288792-ppsgobhd6ir4k98sm37cjelspub04aof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "client.hawker.com.hawkerclient",
+            "certificate_hash": "37eb188ef33fe2f7858a723eefd2fd5b6445af47"
+          }
+        },
+        {
+          "client_id": "450434288792-k9lq93d7r8a7km3uf1hh1p0ad7atk3d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ8wwNonKyXx9lfWsiDVgNz5od9bxKXTM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450434288792-k9lq93d7r8a7km3uf1hh1p0ad7atk3d2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450434288792:android:8d4e41f333ad27fa",
+        "android_client_info": {
+          "package_name": "com.invertase.rnfirebasestarter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450434288792-k9lq93d7r8a7km3uf1hh1p0ad7atk3d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ8wwNonKyXx9lfWsiDVgNz5od9bxKXTM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450434288792:android:f4d5b0e3a33be74d",
+        "android_client_info": {
+          "package_name": "myhawker.odc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450434288792-k9lq93d7r8a7km3uf1hh1p0ad7atk3d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ8wwNonKyXx9lfWsiDVgNz5od9bxKXTM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450434288792:android:36c20ba3876b9125",
+        "android_client_info": {
+          "package_name": "odc.hawkerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450434288792-kfu1nls60v44hemohni6kvt9irqhq6kl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "odc.hawkerapp",
+            "certificate_hash": "37eb188ef33fe2f7858a723eefd2fd5b6445af47"
+          }
+        },
+        {
+          "client_id": "450434288792-k9lq93d7r8a7km3uf1hh1p0ad7atk3d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ8wwNonKyXx9lfWsiDVgNz5od9bxKXTM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450434288792-k9lq93d7r8a7km3uf1hh1p0ad7atk3d2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
